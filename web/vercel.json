@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "routes/**/*.ts": {
+      "runtime": "deno@latest"
+    }
+  },
+  "build": {
+    "command": "deno task build",
+    "env": {
+      "DENO_ENV": "production"
+    }
+  }
+}
