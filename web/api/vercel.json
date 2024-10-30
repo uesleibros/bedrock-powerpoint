@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/**/*.ts": {
+    "api/routes/**/*.ts": {
       "runtime": "deno@2.0.4"
     }
   },
