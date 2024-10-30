@@ -1,6 +1,6 @@
-import { PageProps } from "$fresh/server";
-import { marked } from "https://deno.land/x/marked/mod";
-import tools from "../../../tools";
+import { PageProps } from "$fresh/server.ts";
+import { marked } from "https://deno.land/x/marked/mod.ts";
+import tools from "../../../tools.ts";
 
 async function loadMarkdown(file: string) {
   const url = new URL(`../../../docs/${file}`, import.meta.url);
