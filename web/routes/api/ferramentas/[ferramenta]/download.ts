@@ -1,7 +1,7 @@
 import tools from "../../../../tools.ts";
 
 export const handler = {
-  async GET(req: Request, ctx: { params: { ferramenta: string } }) {
+  async GET(_, ctx: { params: { ferramenta: string } }) {
     const { ferramenta } = ctx.params;
 
     const tool = tools.find((t) => t.id === ferramenta);
