@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "deno"
+    }
+  },
+  "build": {
+    "env": {
+      "DENO_ENV": "production"
+    }
+  }
+}
