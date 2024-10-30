@@ -1,4 +1,3 @@
-import { PageProps } from "$fresh/server.ts";
 import { marked } from "https://deno.land/x/marked/mod.ts";
 import tools from "../../../tools.ts";
 
@@ -9,7 +8,7 @@ async function loadMarkdown(file: string) {
 }
 
 export const handler = {
-  async GET(req: Request, ctx: { params: { ferramenta: string } }) {
+  async GET(_, ctx: { params: { ferramenta: string } }) {
     const { ferramenta } = ctx.params;
 
     if (!ferramenta) {
@@ -26,7 +25,7 @@ export const handler = {
 
     try {
       content = await loadMarkdown(markdownFile);
-    } catch (error) {
+    } catch (_) {
       content = "# Documentação não encontrada";
     }
 
