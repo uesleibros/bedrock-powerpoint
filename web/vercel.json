@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/routes/**/*.ts": {
-      "runtime": "deno@latest"
+      "runtime": "vercel-deno@3.1.0"
     }
   },
   "build": {
