@@ -1,4 +1,4 @@
-import tools from "../../tools.ts";
+import tools from "../../tools";
 
 export default function Tools() {
   return (

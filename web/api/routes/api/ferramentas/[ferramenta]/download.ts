@@ -1,4 +1,4 @@
-import tools from "../../../../tools.ts";
+import tools from "../../../../tools";
 
 export const handler = {
   async GET(req: Request, ctx: { params: { ferramenta: string } }) {
