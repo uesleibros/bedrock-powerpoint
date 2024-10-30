@@ -6,7 +6,7 @@ export default function Home() {
           Bedrock
         </h1>
         <p class="text-2xl font-light mb-8">
-          Ferramentas inovadoras para desenvolvedores VBA em qualquer área
+          Ferramentas inovadoras para desenvolvedores VBA em qualquer área.
         </p>
         <p class="text-lg mb-8 leading-relaxed">
           Nossa missão é transformar o VBA em uma plataforma versátil e poderosa. Seja desenvolvendo jogos, sistemas operacionais, ou qualquer outra aplicação, temos as ferramentas e a expertise para facilitar seu trabalho e expandir o potencial do VBA.
