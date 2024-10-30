@@ -5,7 +5,6 @@
     }
   },
   "build": {
-    "command": "deno task build",
     "env": {
       "DENO_ENV": "production"
     }
