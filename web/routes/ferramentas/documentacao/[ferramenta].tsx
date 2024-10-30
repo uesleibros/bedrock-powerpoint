@@ -1,5 +1,6 @@
 import { PageProps } from "$fresh/server.ts";
 import { marked } from "https://deno.land/x/marked/mod.ts";
+import tools from "../../../tools.ts";
 
 async function loadMarkdown(file: string) {
   const url = new URL(`../../../docs/${file}`, import.meta.url);
@@ -18,6 +19,8 @@ export const handler = {
       );
     }
 
+    const tool = tools.find((t) => t.id === ferramenta);
+
     const markdownFile = `${ferramenta}.md`;
     let content;
 
@@ -35,7 +38,7 @@ export const handler = {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>${ferramenta}</title>
+          <title>${tool.name}</title>
           <link rel="stylesheet" href="/styles.css">
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-css@1.1.0/markdown.css">
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
@@ -48,9 +51,12 @@ export const handler = {
                 <a href="/ferramentas" class="bg-white border rounded-lg shadow-lg p-2 h-[max-content] text-gray-800 font-semibold">
                   &larr;
                 </a>
-                <a href="/download/${ferramenta}" class="bg-white border rounded-lg shadow-lg p-2 text-gray-800 font-semibold">
+                <a href="/api/ferramentas/${ferramenta}/download" class="bg-white border rounded-lg shadow-lg p-2 text-gray-800 font-semibold">
                   Baixar Pacote
                 </a>
+              </div>
+              <div class="pl-[1rem] mx-auto max-w-[800px]">
+                <img src="${tool.image}" alt="${tool.name} logo" class="w-[80px] h-[80px] object-contain" />
               </div>
               <div class="prose" style="max-width: 800px;">
                 ${htmlContent}

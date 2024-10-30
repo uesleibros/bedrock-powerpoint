@@ -1,19 +1,6 @@
-export default function Tools() {
-  const tools = [
-    {
-      id: "discord-rpc",
-      name: "Discord RPC",
-      description: "Integre o Discord Rich Presence ao VBA, permitindo exibir status personalizados em tempo real.",
-      image: "/ferramentas/discord-rpc.png",
-    },
-    {
-      id: "temporizer",
-      name: "Temporizer",
-      description: "Facilita o controle de tempo e execução de tarefas com temporizadores avançados em VBA.",
-      image: "/ferramentas/temporizer.png",
-    },
-  ];
+import tools from "../../tools.ts";
 
+export default function Tools() {
   return (
     <div class="py-12 px-6">
       <div class="container mx-auto max-w-5xl">

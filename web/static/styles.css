@@ -12,6 +12,7 @@
 .prose h1, .prose h2, .prose h3 {
 	font-weight: bold;
 	border-bottom: solid 1px lightgray;
+  margin-top: 10px;
 	margin-bottom: 10px;
 }
 
@@ -25,7 +26,7 @@
 }
 
 .prose h2 {
-	font-size: 36px;
+	font-size: 34px;
 }
 
 .prose h3 {
