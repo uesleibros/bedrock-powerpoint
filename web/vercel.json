@@ -1,7 +1,7 @@
 {
   "functions": {
     "routes/**/*.ts": {
-      "runtime": "deno@latest"
+      "runtime": "deno"
     }
   },
   "build": {
