@@ -61,7 +61,7 @@ export default function Home() {
             { text: "Oi.", author: "Fabinho, Internauta" }
           ].map((testimonial, index) => (
             <div key={index} className="bg-white border text-gray-800 h-auto p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
-              <p className="italic">"{testimonial.text}"</p>
+              <p className="italic">&quot;{testimonial.text}&quot;</p>
               <p className="text-right mt-4 font-semibold">- {testimonial.author}</p>
             </div>
           ))}
