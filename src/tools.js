@@ -15,6 +15,14 @@ const tools = [
     file: "Temporizer.bas",
     image: "/ferramentas/temporizer.png",
   },
+  {
+    id: "betterdll",
+    name: "BetterDLL",
+    description: "Uma biblioteca que permite você manipular e utilizar as DLLs do VBA de uma forma mais livre.",
+    tags: ["Utilitário"],
+    file: "DLL.cls",
+    image: "/ferramentas/betterdll.png"
+  }
 ];
 
 export default tools;

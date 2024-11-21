@@ -85,26 +85,28 @@ export default async function DocumentacaoFerramenta({ params }) {
   const markdown = body.content ? marked(body.content) : null;
 
   return (
-    <div className="py-12 px-6">
-      <div className="container mx-auto max-w-5xl">
-        <div className="flex items-center gap-3 mb-10">
-          <Link href="/ferramentas" className="bg-white border rounded-lg shadow-lg p-2 h-[max-content] text-gray-800 font-semibold">
-            &larr;
-          </Link>
-          <a href={`/api/download?ferramenta=${ferramenta}`} className="bg-white border rounded-lg shadow-lg p-2 text-gray-800 font-semibold">
-            Baixar Pacote
-          </a>
-        </div>
-        <div className="pl-[1rem] mx-auto max-w-[800px]">
-          <Image src={ferramentaObjeto.image} alt={`${ferramentaObjeto.name} logo`} width={1000} height={1000} quality={100} className="w-[80px] h-[80px] pointer-events-none select-none object-contain rounded-lg" />
-        </div>
-        <div className="pl-[1rem] mx-auto max-w-[800px] mt-5 flex flex-wrap items-center gap-2">
-        	{ferramentaObjeto.tags.map((tag, index) => (
-        		<p key={index} className="bg-blue-600 select-none text-xs text-white font-bold rounded-full shadow-sm py-1 px-4">{ tag }</p>
-        	))}
-        </div>
-        <ContentPostCode htmlContent={markdown} />
-      </div>
+  	<div className="w-full h-full min-h-screen h-full antialiased w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:30px_30px]">
+	    <div className="py-12 px-6">
+	      <div className="container mx-auto max-w-5xl">
+	        <div className="flex items-center gap-3 mb-10">
+	          <Link href="/ferramentas" className="bg-white border rounded-lg shadow-lg p-2 h-[max-content] text-gray-800 font-semibold">
+	            &larr;
+	          </Link>
+	          <a href={`/api/download?ferramenta=${ferramenta}`} className="bg-white border rounded-lg shadow-lg p-2 text-gray-800 font-semibold">
+	            Baixar Pacote
+	          </a>
+	        </div>
+	        <div className="pl-[1rem] mx-auto max-w-[800px]">
+	          <Image src={ferramentaObjeto.image} alt={`${ferramentaObjeto.name} logo`} width={1000} height={1000} quality={100} className="w-[80px] h-[80px] pointer-events-none select-none object-contain rounded-lg" />
+	        </div>
+	        <div className="pl-[1rem] mx-auto max-w-[800px] mt-5 flex flex-wrap items-center gap-2">
+	        	{ferramentaObjeto.tags.map((tag, index) => (
+	        		<p key={index} className="bg-blue-600 select-none text-xs text-white font-bold rounded-full shadow-sm py-1 px-4">{ tag }</p>
+	        	))}
+	        </div>
+	        <ContentPostCode htmlContent={markdown} />
+	      </div>
+	    </div>
     </div>
   );
 }
