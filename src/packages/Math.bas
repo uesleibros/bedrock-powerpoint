@@ -34,7 +34,7 @@ Option Explicit
 
 Public Const PI As Double = 3.14159265358979
 
-Private Function Overlap(projectionA As Variant, projectionB As Variant) As Boolean
+Public Function Overlap(projectionA As Variant, projectionB As Variant) As Boolean
     Overlap = Not (projectionA(1) < projectionB(0) Or projectionB(1) < projectionA(0))
 End Function
 
@@ -58,7 +58,7 @@ Public Function DotProduct2D(v As Variant, axis As Variant) As Double
     DotProduct2D = (v(0) * axis(0)) + (v(1) * axis(1))
 End Function
 
-Private Function NearestPointOnSegment(x1 As Double, y1 As Double, x2 As Double, y2 As Double, px As Double, py As Double) As Variant
+Public Function NearestPointOnSegment(x1 As Double, y1 As Double, x2 As Double, y2 As Double, px As Double, py As Double) As Variant
     Dim dx As Double, dy As Double
     Dim t As Double
     Dim nearestX As Double, nearestY As Double
@@ -74,7 +74,7 @@ Private Function NearestPointOnSegment(x1 As Double, y1 As Double, x2 As Double,
     NearestPointOnSegment = Array(nearestX, nearestY)
 End Function
 
-Private Function NormalizeVector2D(v As Variant) As Variant
+Public Function NormalizeVector2D(v As Variant) As Variant
     Dim magnitude As Double
     magnitude = Sqr(v(0) ^ 2 + v(1) ^ 2)
     
