@@ -1,6 +1,6 @@
-# DiscordRPC
+# Discord RPC
 
-O **DiscordRPC** permite integrar seu aplicativo VBA com o Discord, atualizando o status de presença do usuário no Discord, como "Jogando", "Assistindo" e outros. A comunicação é feita por meio de pipes do Windows, e o status pode ser personalizado.
+O **Discord RPC** permite integrar seu aplicativo VBA com o Discord, atualizando o status de presença do usuário no Discord, como "Jogando", "Assistindo" e outros. A comunicação é feita por meio de pipes do Windows, e o status pode ser personalizado.
 
 ## Considerações
 
