@@ -22,6 +22,14 @@ const tools = [
     tags: ["Utilitário"],
     file: "DLL.cls",
     image: "/ferramentas/betterdll.png"
+  },
+  {
+    id: "math",
+    name: "Math",
+    description: "Uma biblioteca de matemática com o objetivo de proporcionar funções que o VBA deveria ter, também com alguns outros para facilitar cálculos mais complexos no processo.",
+    tags: ["Utilitário"],
+    file: "Math.bas",
+    image: "/ferramentas/math.png"
   }
 ];
 
