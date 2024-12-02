@@ -30,6 +30,14 @@ const tools = [
     tags: ["Utilitário"],
     file: "Math.bas",
     image: "/ferramentas/math.png"
+  },
+  {
+    id: "jsonf",
+    name: "JSONF",
+    description: "JSONF é uma biblioteca que consegue ler json de forma rápida e eficaz como nunca visto antes, sem precisão de habilitar nada em opções com seus tratamentos de erros automáticos.",
+    tags: ["Utilitário"],
+    file: "JSONF.bas",
+    image: "/ferramentas/jsonf.png"
   }
 ];
 
