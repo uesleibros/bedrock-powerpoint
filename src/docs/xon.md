@@ -29,7 +29,7 @@ O módulo apresentado implementa um **parser** e um **serializer** para manipula
 
 ## Exemplo de XON
 
-```perl
+```rust
 game -> [
   title -> "Aventura de Makoto"
   author -> "FoxyBR_123"
