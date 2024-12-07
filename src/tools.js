@@ -11,7 +11,7 @@ const tools = [
     id: "temporizer",
     name: "Temporizer",
     description: "Facilita o controle de tempo e execução de tarefas com temporizadores avançados em VBA.",
-    tags: ["Utilitário", "Jogos", "Sistemas"],
+    tags: ["Utilitário"],
     file: "Temporizer.bas",
     image: "/ferramentas/temporizer.png",
   },
@@ -38,6 +38,14 @@ const tools = [
     tags: ["Utilitário"],
     file: "JSONF.bas",
     image: "/ferramentas/jsonf.png"
+  },
+  {
+    id: "xon",
+    name: "XON",
+    description: "XON (eXtensible Object Notation) é uma linguagem de marcação desenvolvida por nós para nossos projetos, sendo simples, legível e versátil.",
+    tags: ["Utilitário"],
+    file: "XON.bas",
+    image: "/ferramentas/xon.png"
   }
 ];
 
