@@ -80,62 +80,53 @@ Private Sub Tokenize(Code As String)
 
     Dim i As Long, Line As Long, Col As Long
     Dim in_string As Boolean
-    Dim string_delim As String
     Dim Char As String, buffer As String
     Line = 1
     Col = 1
-    in_string = False
-    string_delim = ""
 
     For i = 1 To Len(Code)
-        Char = Mid(Code, i, 1)
+        Char = Mid$(Code, i, 1)
 
-        If Char = vbLf Then
-            Line = Line + 1
-            Col = 1
-        ElseIf Char = """" Or Char = "'" Then
-            If in_string And string_delim = Char Then
-                ' Fecha string
+        Select Case True
+            Case Char = vbLf
+                Line = Line + 1
+                Col = 1
+            Case Char = """"
+                in_string = Not in_string
                 buffer = buffer & Char
+                If Not in_string Then ProcessBuffer buffer, Line, Col
+            Case Char = "\" And in_string
+                i = HandleEscapeSequence(Code, i, buffer, Line, Col)
+            Case in_string
+                buffer = buffer & Char
+            Case IsNumeric(Char) Or Char = "."
+                If Len(buffer) > 0 And Not (IsNumeric(Left(buffer, 1)) Or Left(buffer, 1) = "-") Then
+                    AddToken buffer, Line, Col - Len(buffer)
+                    buffer = ""
+                End If
+                buffer = buffer & Char
+            Case IsSymbol(Char)
+                If Not IsNumeric(Mid$(Code, i + 1, 1)) Then
+                    ProcessBuffer buffer, Line, Col
+                    If Char = "-" And Mid$(Code, i + 1, 1) = ">" Then
+                        AddToken "->", Line, Col
+                        i = i + 1
+                        Col = Col + 1
+                    Else
+                        AddToken Char, Line, Col
+                    End If
+                Else
+                    buffer = buffer & Char
+                End If
+            Case IsSpace(Char)
                 ProcessBuffer buffer, Line, Col
-                buffer = ""
-                in_string = False
-                string_delim = ""
-            ElseIf Not in_string Then
-                ' Inicia string
-                in_string = True
-                string_delim = Char
-                buffer = Char
-            Else
+            Case Else
+                If Len(buffer) > 0 And (IsNumeric(Left(buffer, 1)) And Not IsNumeric(Char)) Or (Left(buffer, 1) = "-" And IsNumeric(Mid$(buffer, 2, 1))) Then
+                    AddToken buffer, Line, Col - Len(buffer)
+                    buffer = ""
+                End If
                 buffer = buffer & Char
-            End If
-        ElseIf in_string Then
-            buffer = buffer & Char
-        ElseIf IsSymbol(Char) Then
-            ProcessBuffer buffer, Line, Col
-            If Char = "-" And Mid(Code, i + 1, 1) = ">" Then
-                AddToken "->", Line, Col
-                i = i + 1
-                Col = Col + 1
-            Else
-                AddToken Char, Line, Col
-            End If
-        ElseIf IsNumeric(Char) Or Char = "." Then
-            If Len(buffer) > 0 And Not IsNumeric(Left(buffer, 1)) Then
-                AddToken buffer, Line, Col - Len(buffer)
-                buffer = ""
-            End If
-            buffer = buffer & Char
-        ElseIf IsSpace(Char) Then
-            ProcessBuffer buffer, Line, Col
-        Else
-            If Len(buffer) > 0 And IsNumeric(Left(buffer, 1)) And Not IsNumeric(Char) Then
-                AddToken buffer, Line, Col - Len(buffer)
-                buffer = ""
-            End If
-            buffer = buffer & Char
-        End If
-
+        End Select
         Col = Col + 1
     Next i
 
@@ -149,6 +140,26 @@ Private Sub AddToken(Token As String, Line As Long, Col As Long)
         positions.Add Array(Line, Col)
     End If
 End Sub
+
+Private Function HandleEscapeSequence(Code As String, i As Long, ByRef buffer As String, ByVal Line As Long, ByVal Col As Long) As Long
+    Dim NextChar As String
+    If i + 1 > Len(Code) Then
+        Err.Raise vbObjectError, "XON", "Error at line " & Line & ", column " & Col & ": Unterminated escape sequence"
+    End If
+
+    NextChar = Mid$(Code, i + 1, 1)
+    Select Case NextChar
+        Case "n": buffer = buffer & vbNewLine
+        Case "t": buffer = buffer & vbTab
+        Case "r": buffer = buffer & vbCr
+        Case """": buffer = buffer & """"
+        Case "\": buffer = buffer & "\"
+        Case Else
+            Err.Raise vbObjectError, "XON", "Error at line " & Line & ", column " & Col & ": Invalid escape sequence \" & NextChar
+    End Select
+
+    HandleEscapeSequence = i + 1
+End Function
 
 Private Sub ProcessBuffer(buffer As String, Line As Long, Col As Long)
     If Len(Trim(buffer)) > 0 Then
@@ -187,11 +198,9 @@ Private Function GetKey() As String
     Dim Token As String
     Token = Tokens(index)
     index = index + 1
-
-    If (Left(Token, 1) = """") And (Right(Token, 1) = """") Then
-        GetKey = Mid(Token, 2, Len(Token) - 2)
-    ElseIf (Left(Token, 1) = "'") And (Right(Token, 1) = "'") Then
-        GetKey = Mid(Token, 2, Len(Token) - 2)
+    
+    If Left(Token, 1) = """" And Right(Token, 1) = """" Then
+        GetKey = Mid$(Token, 2, Len(Token) - 2)
     Else
         GetKey = Token
     End If
@@ -218,22 +227,20 @@ Private Function GetValue() As Variant
             Exit Function
     End Select
     
-    If (Left(Token, 1) = """") And (Right(Token, 1) = """") Then
+    If Left(Token, 1) = """" And Right(Token, 1) = """" Then
         index = index + 1
-        GetValue = Mid(Token, 2, Len(Token) - 2)
-        Exit Function
-    ElseIf (Left(Token, 1) = "'") And (Right(Token, 1) = "'") Then
-        index = index + 1
-        GetValue = Mid(Token, 2, Len(Token) - 2)
+        GetValue = Mid$(Token, 2, Len(Token) - 2)
         Exit Function
     End If
     
     If IsNumeric(Token) Then
         GetValue = CDbl(Token)
-        index = index + 1
+    Else
+        GetValue = Token
     End If
+    
+    index = index + 1
 End Function
-
 
 Private Function DeserializeBlock() As Dictionary
     If index >= Tokens.Length Or Tokens(index) <> splited_tokens(0) Then RaiseError ("Expected '" & splited_tokens(0) & "' to start a block")
@@ -242,7 +249,7 @@ Private Function DeserializeBlock() As Dictionary
     Set DeserializeBlock = New Dictionary
     
     Dim Token As String, Key As String
-    While index < Tokens.Length
+    Do While index < Tokens.Length
         Token = Tokens(index)
         If Token = splited_tokens(1) Then
             index = index + 1
@@ -254,19 +261,20 @@ Private Function DeserializeBlock() As Dictionary
         IExpect ("->")
         If index >= Tokens.Length Or Tokens(index) Like "[\]\)]" Then RaiseError ("Missing value for key '" & Key & "'")
         DeserializeBlock.Add Key, GetValue
-    Wend
+        DoEvents
+    Loop
     
     RaiseError ("Unterminated block, missing '" & splited_tokens(1) & "'")
 End Function
 
 Private Function DeserializeList() As List
-    If index >= Tokens.Length Or Tokens(index) <> "(" Then RaiseError ("Expected '" & splited_tokens(2) & "' to start a list")
+    If index >= Tokens.Length Or Tokens(index) <> splited_tokens(2) Then RaiseError ("Expected '" & splited_tokens(2) & "' to start a list")
     index = index + 1
     
     Set DeserializeList = New List
     
     Dim Token As String
-    While index < Tokens.Length
+    Do While index < Tokens.Length
         Token = Tokens(index)
         
         If Token = splited_tokens(3) Then
@@ -275,7 +283,8 @@ Private Function DeserializeList() As List
         End If
         
         DeserializeList.Add GetValue
-    Wend
+        DoEvents
+    Loop
     
     RaiseError ("Unterminated block, missing '" & splited_tokens(3) & "'")
 End Function
@@ -298,16 +307,16 @@ Private Function TSArray(ByVal obj_list As List, level As Integer) As String
 End Function
 
 Private Function TSDict(ByVal obj_dict As Dictionary, level As Integer) As String
-    If obj_dict.count = 0 Then
+    If obj_dict.Count = 0 Then
         TSDict = splited_tokens(0) & splited_tokens(1)
     Else
         Dim i As Long
         Dim buffer As String
         buffer = splited_tokens(0) & vbNewLine
         
-        For i = 0 To obj_dict.count - 1
+        For i = 0 To obj_dict.Count - 1
             buffer = buffer & RepeatString(String(2, " "), level) & """" & obj_dict.Keys(i) & """ -> " & TSExpression(obj_dict.items(i), level)
-            If i < obj_dict.count - 1 Then buffer = buffer & vbNewLine
+            If i < obj_dict.Count - 1 Then buffer = buffer & vbNewLine
         Next i
         buffer = buffer & vbNewLine & RepeatString(String(2, " "), level - 1) & splited_tokens(1)
         TSDict = buffer
@@ -350,36 +359,36 @@ Private Function JoinArray(Arr As Variant, Ind As Integer) As String
 End Function
 
 Private Function TSString(ByVal Expression As String) As String
-    Dim result As String
+    Dim Result As String
     Dim i As Long
     Dim currentChar As String
 
-    result = """"
+    Result = """"
     For i = 1 To Len(Expression)
-        currentChar = Mid(Expression, i, 1)
+        currentChar = Mid$(Expression, i, 1)
         
         Select Case currentChar
             Case """"
-                result = result & "\"""
+                Result = Result & "\"""
             Case vbLf
-                result = result & "\n"
+                Result = Result & "\n"
             Case vbCr
-                result = result & "\r"
+                Result = Result & "\r"
             Case vbTab
-                result = result & "\t"
+                Result = Result & "\t"
             Case vbCrLf
-                result = result & "\n"
+                Result = Result & "\n"
             Case Else
-                result = result & currentChar
+                Result = Result & currentChar
         End Select
     Next i
 
-    result = result & """"
-    TSString = result
+    Result = Result & """"
+    TSString = Result
 End Function
 
-Private Function RepeatString(s As String, count As Integer) As String
-    RepeatString = String(count * 2, s)
+Private Function RepeatString(s As String, Count As Integer) As String
+    RepeatString = String(Count * 2, s)
 End Function
 
 Private Sub IExpect(expected_token As String)
