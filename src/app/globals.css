@@ -57,6 +57,11 @@
   background-color: #f2f4f5;
   padding: 0.2rem 0.4rem;
   border-radius: 0.2rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: inline-block;
+  max-width: 100%;
 }
 
 .prose ul {
