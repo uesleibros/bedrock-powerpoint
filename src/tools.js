@@ -43,10 +43,18 @@ const tools = [
     id: "xon",
     name: "XON",
     description: "XON (eXtensible Object Notation) é uma linguagem de marcação desenvolvida por nós para nossos projetos, sendo simples, legível e versátil.",
-    tags: ["Utilitário"],
+    tags: ["Utilitário", "Linguagem"],
     file: "XON.bas",
     image: "/ferramentas/xon.png"
-  }
+  },
+  {
+    id: "axis-core",
+    name: "AxisCore",
+    description: "AxisCore é uma biblioteca que visa melhorar como os controles são tratados no VBA. Adicionando uma ampla customização e variedades para fazer o que quiser com os inputs do seu controle, seja PS, Xbox, Nintendo Switch e entre outros.",
+    tags: ["Utilitário"],
+    file: "AxisCore.bas",
+    image: "/ferramentas/axis-core.png"
+  },
 ];
 
 export default tools;
