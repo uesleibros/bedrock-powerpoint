@@ -92,9 +92,11 @@ export default async function DocumentacaoFerramenta({ params }) {
 	          <Link href="/ferramentas" className="bg-white border rounded-lg shadow-lg p-2 h-[max-content] text-gray-800 font-semibold">
 	            &larr;
 	          </Link>
-	          <a href={`/api/download?ferramenta=${ferramenta}`} className="bg-white border rounded-lg shadow-lg p-2 text-gray-800 font-semibold">
-	            Baixar Pacote
-	          </a>
+				{ferramentaObjeto.file && (
+		          <a href={`/api/download?ferramenta=${ferramenta}`} className="bg-white border rounded-lg shadow-lg p-2 text-gray-800 font-semibold">
+	                Baixar Pacote
+	              </a>
+	            )}
 	        </div>
 	        <div className="pl-[1rem] mx-auto max-w-[800px]">
 	          <Image src={ferramentaObjeto.image} alt={`${ferramentaObjeto.name} logo`} width={1000} height={1000} quality={100} className="w-[80px] h-[80px] pointer-events-none select-none object-contain rounded-lg" />
